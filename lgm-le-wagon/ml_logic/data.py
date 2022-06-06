@@ -14,6 +14,22 @@ import os
 import pandas as pd
 
 
+def get_data(label:str = None):
+    """
+    data: 
+    label: name of label that must be used as target [sales_or_hr, sentiment_sales, sentiment_rh] 
+    """
+    # Load table from BQ, returning logid, reply and required label
+    if label == 'salesrh':
+        # SELECT logid, first_message, salesrh
+        pass
+    elif label == 'sentiment_sales':
+        pass
+        # SELECT logid, reply, sentiment WHERE sector='SALES'
+    elif label == 'sentiment_rh':
+        pass
+        # SELECT logid, reply, sentiment WHERE sector='RH'
+    pass
 
 ########################### TAXIFARE #####################################
 

@@ -16,8 +16,16 @@ from typing import Tuple
 
 import numpy as np
 
-def model():
-    #Predict if Out of office
+def initialize_model():
+    pass
+
+def compile_model():
+    pass
+
+def train_model():
+    pass
+
+def evaluate_model():
     pass
 
 ########################### TAXIFARE #####################################

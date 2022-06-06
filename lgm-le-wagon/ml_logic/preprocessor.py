@@ -1,16 +1,21 @@
-from sklearn.pipeline import make_pipeline
-from sklearn.compose import ColumnTransformer, make_column_transformer
-from sklearn.preprocessing import OneHotEncoder, FunctionTransformer
-
-from ml_logic.encoders import (transform_time_features,
-                                transform_lonlat_features,
-                                compute_geohash)
-
 import numpy as np
 import pandas as pd
 
 from colorama import Fore, Style
 
+
+
+def clean_text_mail():
+    pass
+
+def clean_text_linkedin():
+    pass
+
+def words_to_vectors():
+    pass
+
+def texts_to_embedding():
+    pass
 
 ########################### TAXIFARE #####################################
 
