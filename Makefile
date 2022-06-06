@@ -1,5 +1,21 @@
 demo:
 	@echo coucou
+
+run_api:
+	@uvicorn ...
+
+docker_build:
+	@docker build -t ...
+
+docker_run:
+	@docker run -e PORT=8000 -p 8080:8000 ...
+
+docker_push:
+	@docker push
+
+cloud_run:
+	@gcloud run deploy ...
+
 # ----------------------------------
 #          INSTALL & TEST
 # ----------------------------------
