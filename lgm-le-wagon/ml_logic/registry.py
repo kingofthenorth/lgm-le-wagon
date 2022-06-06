@@ -11,6 +11,18 @@ from colorama import Fore, Style
 from tensorflow import keras
 from tensorflow.keras import Model
 
+def save_model(experiment: str = None,
+               model: Model = None,
+               params: dict = None,
+               metrics: dict = None) -> None:
+    # TODO Save the model in mlflow 
+    pass
+
+
+def load_model(experiment: str = None,
+               model_name: str = None,
+               stage="None") -> Model:
+    # TODO Load model in given stage
 
 ########################### TAXIFARE #####################################
 

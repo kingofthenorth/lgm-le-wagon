@@ -1,18 +1,15 @@
 
-from ml_logic.data import (clean_data,
-                            get_chunk,
-                            save_chunk)
+from ml_logic.data import get_data
 
-from ml_logic.params import (CHUNK_SIZE,
-                            DATASET_SIZE,
-                            VALIDATION_DATASET_SIZE)
+from ml_logic.params import (VALIDATION_DATASET_SIZE)
 
-from ml_logic.preprocessor import preprocess_features
+from ml_logic.preprocessor import (clean_text_mail,
+                                   clean_text_linkedin)
 
-from ml_logic.model import (initialize_model,
-                            compile_model,
-                            train_model,
-                            evaluate_model)
+from ml_logic.models import (model_ooo,
+                             model_sales_or_hr,
+                             model_sentiment_hr,
+                             model_sentiment_sales)
 
 from ml_logic.registry import (save_model,
                                 load_model)
@@ -23,7 +20,17 @@ import pandas as pd
 from colorama import Fore, Style
 
 
+def preprocess():
+    pass
 
+def train():
+    pass
+
+def preprocess_and_train():
+    pass
+
+def pred():
+    pass
 ########################### TAXIFARE #####################################
 
 
