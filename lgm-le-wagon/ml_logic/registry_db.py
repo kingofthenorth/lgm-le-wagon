@@ -6,50 +6,52 @@ import psycopg2.extras
 
 from colorama import Fore, Style
 
+########################### TAXIFARE #####################################
 
-def get_latest_trained_row(experiment):
 
-    print(Fore.BLUE + "\nRetrieve last trained row from mlflow db..." + Style.RESET_ALL)
+# def get_latest_trained_row(experiment):
 
-    # get latest trained row
-    mlflow_query = f"""
-        SELECT
-            pa.key AS param_key,
-            pa.value AS param_value
-        FROM runs ru
-        JOIN experiments ex ON ex.experiment_id = ru.experiment_id
-        JOIN params pa ON pa.run_uuid = ru.run_uuid
-        WHERE ex.name = '{experiment}'
-        AND pa.key IN ('first_row', 'row_count')
-        ORDER BY ru.end_time DESC
-        LIMIT 2;
-        """
+#     print(Fore.BLUE + "\nRetrieve last trained row from mlflow db..." + Style.RESET_ALL)
 
-    tracking_db_uri = os.environ.get("MLFLOW_TRACKING_DB")
+#     # get latest trained row
+#     mlflow_query = f"""
+#         SELECT
+#             pa.key AS param_key,
+#             pa.value AS param_value
+#         FROM runs ru
+#         JOIN experiments ex ON ex.experiment_id = ru.experiment_id
+#         JOIN params pa ON pa.run_uuid = ru.run_uuid
+#         WHERE ex.name = '{experiment}'
+#         AND pa.key IN ('first_row', 'row_count')
+#         ORDER BY ru.end_time DESC
+#         LIMIT 2;
+#         """
 
-    conn = psycopg2.connect(tracking_db_uri)
+#     tracking_db_uri = os.environ.get("MLFLOW_TRACKING_DB")
 
-    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cur.execute(mlflow_query)
+#     conn = psycopg2.connect(tracking_db_uri)
 
-    # retrieve content
-    first_row = 0
-    row_count = 0
+#     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+#     cur.execute(mlflow_query)
 
-    results = cur.fetchall()
+#     # retrieve content
+#     first_row = 0
+#     row_count = 0
 
-    for row in results:
+#     results = cur.fetchall()
 
-        row_key = row["param_key"]
-        row_value = row["param_value"]
+#     for row in results:
 
-        if row_key == "first_row":
-            first_row = int(row_value)
-        elif row_key == "row_count":
-            row_count = int(row_value)
+#         row_key = row["param_key"]
+#         row_value = row["param_value"]
 
-    next_row = first_row + row_count
+#         if row_key == "first_row":
+#             first_row = int(row_value)
+#         elif row_key == "row_count":
+#             row_count = int(row_value)
 
-    print(f"\n✅ last trained rows: row {next_row}")
+#     next_row = first_row + row_count
 
-    return next_row
+#     print(f"\n✅ last trained rows: row {next_row}")
+
+#     return next_row
