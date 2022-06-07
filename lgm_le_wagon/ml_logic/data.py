@@ -1,35 +1,37 @@
-from ml_logic.params import (DATA_RAW_COLUMNS,
-                            DATA_RAW_DTYPES_OPTIMIZED,
-                            DATA_PROCESSED_DTYPES_OPTIMIZED)
-
-from data_sources.local_disk import (get_pandas_chunk,
-                                    save_local_chunk)
-
-from data_sources.big_query import (get_bq_chunk,
-                                    save_bq_chunk)
-
-
 import os
 
 import pandas as pd
 
+# #from lgm_le_wagon.ml_logic.params import (DATA_RAW_COLUMNS,
+#                             DATA_RAW_DTYPES_OPTIMIZED,
+#                             DATA_PROCESSED_DTYPES_OPTIMIZED)
 
-def get_data(label:str = None):
-    """
-    data: 
-    label: name of label that must be used as target [sales_or_hr, sentiment_sales, sentiment_rh] 
-    """
-    # Load table from BQ, returning logid, reply and required label
-    if label == 'salesrh':
-        # SELECT logid, first_message, salesrh
-        pass
-    elif label == 'sentiment_sales':
-        pass
-        # SELECT logid, reply, sentiment WHERE sector='SALES'
-    elif label == 'sentiment_rh':
-        pass
-        # SELECT logid, reply, sentiment WHERE sector='RH'
-    pass
+# #from lgm_le_wagon.data_sources.local_disk import (get_pandas_chunk,
+#                                     save_local_chunk)
+
+# #from lgm_le_wagon.data_sources.big_query import (get_bq_chunk,
+#                                     save_bq_chunk)
+
+
+
+
+
+# def get_data(label:str = None):
+#     """
+#     data:
+#     label: name of label that must be used as target [sales_or_hr, sentiment_sales, sentiment_rh]
+#     """
+#     # Load table from BQ, returning logid, reply and required label
+#     if label == 'salesrh':
+#         # SELECT logid, first_message, salesrh
+#         pass
+#     elif label == 'sentiment_sales':
+#         pass
+#         # SELECT logid, reply, sentiment WHERE sector='SALES'
+#     elif label == 'sentiment_rh':
+#         pass
+#         # SELECT logid, reply, sentiment WHERE sector='RH'
+#     pass
 
 ########################### TAXIFARE #####################################
 
