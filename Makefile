@@ -1,5 +1,5 @@
-demo:
-	@echo coucou
+run:
+	@python lgm_le_wagon/interface/main.py
 
 run_api:
 	@uvicorn ...
