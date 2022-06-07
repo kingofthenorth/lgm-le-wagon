@@ -1,6 +1,32 @@
-import os
-
 import pandas as pd
+from google.cloud import bigquery
+from lgm_le_wagon.ml_logic.params import GCP_PROJECT, GBQ_DATASET
+
+def get_data():
+    client = bigquery.Client()
+    
+    table = f"{GCP_PROJECT}.{GBQ_DATASET}.all_doccano"
+
+    query = """
+        SELECT *
+        FROM @table
+    """
+    query_string = client.query(query)
+    
+    job_config = bigquery.QueryJobConfig(
+    query_parameters=[
+        bigquery.ScalarQueryParameter("table", "STRING", table),
+    ])
+    
+    df = (
+        client.query(query_string, job_config=job_config)
+        .result()
+        .to_dataframe())
+    
+    return df
+
+if __name__=="__main__":
+    print(get_data().head(5))
 
 # #from lgm_le_wagon.ml_logic.params import (DATA_RAW_COLUMNS,
 #                             DATA_RAW_DTYPES_OPTIMIZED,
