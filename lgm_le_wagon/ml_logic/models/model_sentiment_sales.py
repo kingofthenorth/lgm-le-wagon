@@ -1,32 +1,25 @@
 
-from colorama import Fore, Style
+# from colorama import Fore, Style
 
-import time
-print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
-start = time.perf_counter()
+# import time
+# # print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
+# # start = time.perf_counter()
 
-from tensorflow import keras
-from tensorflow.keras import Model, Sequential, layers, regularizers
-from tensorflow.keras.callbacks import EarlyStopping
+# from tensorflow import keras
+# from tensorflow.keras import Model, Sequential, layers, regularizers
+# from tensorflow.keras.callbacks import EarlyStopping
 
-end = time.perf_counter()
-print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
+# # end = time.perf_counter()
+# # print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 
-from typing import Tuple
+# from typing import Tuple
 
-import numpy as np
+# import numpy as np
 
-def initialize_model():
+def model_sentiment_sales():
+    # Load pre-trained and add layers
     pass
 
-def compile_model():
-    pass
-
-def train_model():
-    pass
-
-def evaluate_model():
-    pass
 
 ########################### TAXIFARE #####################################
 
