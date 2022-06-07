@@ -1,3 +1,6 @@
+install_package:
+	@pip install -e .
+
 run:
 	@python lgm_le_wagon/interface/main.py
 

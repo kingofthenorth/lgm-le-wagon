@@ -18,11 +18,14 @@ pytest
 yapf
 
 # API
-gcsfs
-google-cloud-storage
 mlflow
 psycopg2-binary
 s3fs
+
+# GCP
+google-cloud-bigquery
+gcsfs
+google-cloud-storage
 
 # utilities
 six>=1.14

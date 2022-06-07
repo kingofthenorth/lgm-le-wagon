@@ -8,6 +8,7 @@ raw_data/
 
 # Environment
 .env
+.envrc
 .python-version
 
 # Notebooks
