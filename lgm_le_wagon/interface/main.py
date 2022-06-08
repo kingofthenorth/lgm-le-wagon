@@ -8,6 +8,7 @@ from colorama import Fore, Style
 #from lgm_le_wagon.ml_logic.data import get_data
 
 from lgm_le_wagon.data_sources.local_disk import get_local_data
+from lgm_le_wagon.ml_logic.data import get_data
 
 #from ml_logic.params import (VALIDATION_DATASET_SIZE)
 
@@ -17,28 +18,13 @@ from lgm_le_wagon.ml_logic.preprocessor import (clean_text_mail,
 
 from lgm_le_wagon.ml_logic.models import (model_ooo,
                              model_sales_or_hr,
-                             model_sentiment_hr,
-                             model_sentiment_sales)
+                             model_sentiment_en,
+                             model_sentiment_fr)
 
 from lgm_le_wagon.ml_logic.registry import (save_model,
                                 load_model)
 
 
-X_HR_train, X_HR_test, y_HR_train, y_HR_test =
-X_HR =
-y_HR =
-
-
-X_sales_train, X_sales_test, y_sales_train, y_sales_test =
-X_sales =
-y_sales =
-
-
-def preprocess():
-    pass
-
-def train():
-    pass
 
 def preprocess_and_train_model_ooo(
     first_row=0
