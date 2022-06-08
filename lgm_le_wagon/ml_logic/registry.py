@@ -9,12 +9,16 @@ import pickle
 from colorama import Fore, Style
 
 from tensorflow import keras
-from tensorflow.keras import Model
+from tensorflow.keras import Model # <===== from tensorflow.keras prev.
 
 def save_model(#experiment: str = None,
                model: Model = None,
                params: dict = None,
                metrics: dict = None) -> None:
+
+    '''
+    Save the latest model
+    '''
 
     if os.environ.get("MODEL_TARGET") == "mlflow":
 
@@ -94,7 +98,44 @@ def load_model(experiment: str = None,
                model_name: str = None,
                stage="None") -> Model:
     # TODO Load model in given stage
-    pass
+
+    """
+#     load the latest saved model
+#     """
+
+    if os.environ.get("MODEL_TARGET") == "mlflow":
+
+        print(Fore.BLUE + "\nLoad model from mlflow..." + Style.RESET_ALL)
+
+        # load model from mlflow
+        mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI"))
+
+        mlflow_model_name = os.environ.get("MLFLOW_MODEL_NAME")
+
+        model_uri = f"models:/{mlflow_model_name}/{stage}"
+        print(f"- uri: {model_uri}")
+
+        try:
+            model = mlflow.keras.load_model(model_uri=model_uri)
+            print("\n✅ model loaded from mlflow")
+        except:
+        # raise exception if no model exists
+            raise NameError(f"No {mlflow_model_name} model in {stage} stage stored in mlflow")
+
+        return model
+
+    print(Fore.BLUE + "\nLoad model from local disk..." + Style.RESET_ALL)
+
+    # get latest model version
+    model_directory = os.path.join(os.environ.get("LOCAL_REGISTRY_PATH"), "models")
+
+    model_path = sorted(glob.glob(f"{model_directory}/*"))[-1]
+    print(f"- path: {model_path}")
+
+    model = keras.models.load_model(model_path)
+    print("\n✅ model loaded from disk")
+
+    return model
 
 ########################### TAXIFARE #####################################
 

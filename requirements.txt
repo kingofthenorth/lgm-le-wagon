@@ -9,6 +9,7 @@ numpy
 pandas
 scikit-learn
 gensim
+tensorflow
 
 # tests/linter
 black
@@ -16,6 +17,7 @@ coverage
 flake8
 pytest
 yapf
+colorama
 
 # API
 gcsfs
