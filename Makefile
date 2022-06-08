@@ -5,7 +5,8 @@ run:
 	@python lgm_le_wagon/interface/main.py
 
 run_api:
-	@uvicorn ...
+	uvicorn lgm_le_wagon.fast:app --reload
+#quel chemin pour l'API?
 
 docker_build:
 	@docker build -t ...
