@@ -1,4 +1,4 @@
-FROM python:3.8.13
+FROM python:3.8.13-buster
 
 COPY api /api
 COPY lgm_le_wagon /lgm_le_wagon
