@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-import gcld3
 from colorama import Fore, Style
+import gcld3
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import gensim.downloader as api
