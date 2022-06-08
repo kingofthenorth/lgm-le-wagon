@@ -1,12 +1,40 @@
 import numpy as np
 import pandas as pd
-
+import gcld3
 from colorama import Fore, Style
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import gensim.downloader as api
 
 word2vec_transfer = api.load("glove-wiki-gigaword-300")
+
+
+
+def clean_text(string):
+    '''
+    Take a string and keep if string >20 and <1450
+    '''
+    if string.len() < 1450 and string.len() >20:
+        return string
+    else:
+        "Text is >1500 .../ NA"
+
+def add_language(string):
+    '''
+    predict the language of a string
+    '''
+    detector = gcld3.NNetLanguageIdentifier(min_num_bytes=0,
+                                        max_num_bytes=1000)
+    language = detector.FindLanguage(string).language
+    if language == "fr" or language == "en":
+        return language
+    else:
+        "Language is not detected"
+
+
+
+
+
 
 
 def clean_text_mail():
