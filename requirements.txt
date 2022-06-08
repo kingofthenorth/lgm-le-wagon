@@ -19,6 +19,7 @@ pyexpat
 glob
 pickle
 tracemalloc
+tensorflow
 
 # tests/linter
 black
@@ -26,11 +27,14 @@ coverage
 flake8
 pytest
 yapf
+colorama
 
 # API
 mlflow
 psycopg2-binary
 s3fs
+uvicorn
+fastapi
 
 # GCP
 google-cloud-bigquery
