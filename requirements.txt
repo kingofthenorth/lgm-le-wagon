@@ -9,6 +9,10 @@ numpy
 pandas
 scikit-learn
 gensim
+gcld3
+colorama
+transformers
+sklearn
 
 # tests/linter
 black
@@ -16,20 +20,29 @@ coverage
 flake8
 pytest
 yapf
+colorama
 
 # API
 mlflow
 psycopg2-binary
 s3fs
+uvicorn
+fastapi
 
 # GCP
 google-cloud-bigquery
 gcsfs
 google-cloud-storage
 db-dtypes
+google.cloud
 
 # utilities
 six>=1.14
 joblib
 memoized-property
 termcolor
+
+#Tenserflow
+tensorflow-macos==2.8.0; sys_platform == 'darwin' and 'ARM' in platform_version
+tensorflow==2.8.0; sys_platform == 'darwin' and 'ARM' not in platform_version
+tensorflow==2.8.0; sys_platform != 'darwin'

@@ -5,10 +5,9 @@ import pandas as pd
 from colorama import Fore, Style
 
 
-#from lgm_le_wagon.ml_logic.data import get_data
-
 from lgm_le_wagon.data_sources.local_disk import get_local_data
 from lgm_le_wagon.ml_logic.data import get_data
+
 
 #from ml_logic.params import (VALIDATION_DATASET_SIZE)
 
@@ -24,8 +23,6 @@ from lgm_le_wagon.ml_logic.models import (model_ooo,
 from lgm_le_wagon.ml_logic.registry import (save_model,
                                 load_model)
 
-
-
 def preprocess_and_train_model_ooo(
     first_row=0
     , stage="None"):
@@ -38,7 +35,7 @@ def preprocess_and_train_model_ooo(
     print("\n⭐️ use case: preprocess and train")
 
     #retrieve the dataset
-    data = get_local_data() #<===== François
+    data = get_data(task='ooo') #<===== François
                     #(source_name=f"train_{DATASET_SIZE}", #<====== .env
                      #index=first_row,
                      #chunk_size=None)  # retrieve all further data
@@ -68,7 +65,7 @@ def preprocess_and_train_model_ooo(
 
     # model params
     #learning_rate = 0.001
-    batch_size = 32
+    batch_size = 64
 
     load_existing_model = False
     if first_row != 0:
@@ -112,12 +109,41 @@ def preprocess_and_train_model_ooo(
 
 
 
-def pred():
-    pass
+def predict_ooo(X_pred: pd.DataFrame = None
+    , stage="None"
+) -> np.ndarray:
+    """
+    Make a prediction using the latest trained model
+    """
+
+    print("\n⭐️ use case: predict if OoO")
+
+    if X_pred is None:
+
+        X_pred = pd.DataFrame(dict(
+            type=['GOOGLE'],
+            reply=["Hi, I am out of office"],
+            first_message=['Are you open for new position?'],
+            _id=['xxxxxxxxxxxxxxxxxxxx']
+            ))
+
+    model = load_model(
+        stage=stage
+    )
+
+    X_processed = preproccess_for_ooo(X_pred.drop(columns=['type','first_message','_id']))
+
+    y_pred = model.predict(X_processed)
+
+    print(f"\n✅ prediction OoO done: Probability of Out of Office is  {y_pred}")
+
+    return y_pred
+
 
 
 if __name__ == '__main__':
     preprocess_and_train_model_ooo()
+    predict_ooo()
     #preprocess()
     #train()
     #pred()

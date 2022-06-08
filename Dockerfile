@@ -1,8 +1,11 @@
-# syntax=docker/dockerfile:1
 FROM python:3.8.13
-#COPY taxifare_api /taxifare_api
-#COPY taxifare_model /taxifare_model
-#COPY requirements.txt /requirements.txt
-#RUN pip install --upgrade pip
-#RUN pip install -r requirements.txt
-#CMD uvicorn taxifare_api.fast:app --host 0.0.0.0 --port $PORT
+
+COPY api /api
+COPY lgm_le_wagon /lgm_le_wagon
+COPY model.joblib /model.joblib
+COPY requirements.txt /requirements.txt
+#COPY /Users/boudraasami/code/Samibou23/esoteric-virtue-346915-6b5b52544e75.json /credentials.json
+
+RUN pip install -r requirements.txt
+
+CMD uvicorn api.fast:app --host 0.0.0.0 --port $PORT
