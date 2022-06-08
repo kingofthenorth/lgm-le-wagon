@@ -52,7 +52,8 @@ def predict(type,
         _id=[float(_id)])
         return LINKEDIN_HAS_REPLY.workflow # TODO
 
-    return dict(
+    else:
+        return dict(
         type=['type not detected'],
         reply=[float(reply)],
         first_message=[float(first_message)],
@@ -62,7 +63,7 @@ def predict(type,
 
 
 
-    @app.get("/predict")
+   """ @app.get("/predict")
     def predict(type,
             reply,
             first_message,
@@ -84,7 +85,7 @@ def predict(type,
                 identity = "sales"
                 sales_pred = sales_sentiment(reply)
 
-            return {"log_id":_id, "identity":identity, "sentiment":sales_pred}
+            return {"log_id":_id, "identity":identity, "sentiment":sales_pred} """
 
 
 
