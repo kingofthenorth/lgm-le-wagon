@@ -74,7 +74,7 @@ def preprocess_and_train_model_ooo(
 
     # model params
     #learning_rate = 0.001
-    batch_size = 32
+    batch_size = 16
 
     load_existing_model = False
     if first_row != 0:
@@ -130,26 +130,29 @@ def predict_ooo(X_pred: pd.DataFrame = None
     if X_pred is None:
 
         X_pred = pd.DataFrame(dict(
-            _id=["xxxx"],  # useless but the pipeline requires it
+            type=['GOOGLE'],
             reply=["Hi, I am out of office"],
+            first_message=['Are you open for new position?'],
+            _id=['xxxxxxxxxxxxxxxxxxxx']
             ))
 
     model = load_model(
         stage=stage
     )
 
-    X_processed = preproccess_for_ooo(X_pred)
+    X_processed = preproccess_for_ooo(X_pred.drop(columns=['type','first_message','_id']))
 
     y_pred = model.predict(X_processed)
 
-    print("\n✅ prediction OoO done: ", y_pred, y_pred.shape)
+    print(f"\n✅ prediction OoO done: Probability of Out of Office is  {y_pred}")
 
     return y_pred
 
 
 
 if __name__ == '__main__':
-    preprocess_and_train_model_ooo()
+    #preprocess_and_train_model_ooo()
+    predict_ooo()
     #preprocess()
     #train()
     #pred()
