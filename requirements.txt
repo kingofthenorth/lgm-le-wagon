@@ -26,6 +26,7 @@ s3fs
 google-cloud-bigquery
 gcsfs
 google-cloud-storage
+db-dtypes
 
 # utilities
 six>=1.14
