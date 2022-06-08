@@ -11,15 +11,15 @@ scikit-learn
 gensim
 gcld3
 colorama
-gensim.downloader
-time
+#gensim.downloader
+#time
 transformers
 sklearn
-pyexpat
-glob
-pickle
-tracemalloc
-tensorflow
+#pyexpat
+#glob
+#pickle
+#tracemalloc
+#tensorflow
 
 # tests/linter
 black
