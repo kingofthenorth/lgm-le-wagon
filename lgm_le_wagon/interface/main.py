@@ -24,6 +24,14 @@ from lgm_le_wagon.ml_logic.registry import (save_model,
                                 load_model)
 
 
+X_HR_train, X_HR_test, y_HR_train, y_HR_test =
+X_HR =
+y_HR =
+
+
+X_sales_train, X_sales_test, y_sales_train, y_sales_test =
+X_sales =
+y_sales =
 
 
 def preprocess():
