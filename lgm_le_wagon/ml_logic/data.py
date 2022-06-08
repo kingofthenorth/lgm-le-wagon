@@ -11,7 +11,7 @@ def get_data(task=None):
     ----------
     Returns: pandas.DataFrame with features and target for the required tasks
     """
-    client = bigquery.Client()
+    client = bigquery.Client(project=GCP_PROJECT)
 
     table = f"{GCP_PROJECT}.{GBQ_DATASET}.training_set"
 
@@ -29,11 +29,19 @@ def get_data(task=None):
         SELECT log_id, first_message, sales, RH
         FROM {table}
         WHERE ooo = 0"""
-    if task=='Sentiment':
+    if task=='Sentiment_FR':
         query_string = f"""
-        SELECT log_id, reply, negative, neutral, positive
+        SELECT log_id, reply, language, negative, neutral, positive
         FROM {table}
-        WHERE ooo = 0"""
+        WHERE language = 'fr'
+        AND ooo = 0"""
+
+    if task=='Sentiment_EN':
+        query_string = f"""
+        SELECT log_id, reply, language, negative, neutral, positive
+        FROM {table}
+        WHERE language = 'en'
+        AND ooo = 0"""
 
     df = (
         client.query(query_string)

@@ -1,10 +1,13 @@
 import numpy as np
 import pandas as pd
+
 from colorama import Fore, Style
 import gcld3
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import gensim.downloader as api
+from transformers import CamembertTokenizer
+from tensorflow import convert_to_tensor
 
 word2vec_transfer = api.load("glove-wiki-gigaword-300")
 
@@ -29,19 +32,54 @@ def add_language(string):
     if language == "fr" or language == "en":
         return language
     else:
-        "Language is not detected"
+        return "Language is not detected"
 
 
+def create_tokenizer_fr(max_length=128):
+    """
+    Create a tokenizer that pads and truncates according to max_length
+    Returns input_token_ids and input_masks
+    """
+    tokenizer_fr = CamembertTokenizer \
+        .from_pretrained('jplu/tf-camembert-base',
+                         do_lower_case=True,
+                         add_special_tokens=True,
+                         max_length=128,
+                         pad_to_max_length=True)
+    return tokenizer_fr
+
+def create_tokenizer_en(max_length=128):
+    """
+    Create a tokenizer that pads and truncates according to max_length
+    Returns input_token_ids and input_masks
+    """
+    tokenizer_en = CamembertTokenizer \
+        .from_pretrained('distilbert-base-uncased',
+                         do_lower_case=True,
+                         add_special_tokens=True,
+                         max_length=128,
+                         pad_to_max_length=True)
+    return tokenizer_en
+
+def tokenize(sentences, tokenizer):
+
+    input_ids, input_masks = list(), list()
+
+    for sentence in sentences:
+        inputs = tokenizer.encode_plus(sentence,
+                                       add_special_tokens=True,
+                                       max_length=128,
+                                       padding='max_length',
+                                       truncation=True,
+                                       return_attention_mask=True)
+
+        input_ids.append(inputs['input_ids'])
+        input_masks.append(inputs['attention_mask'])
+
+    return np.array(input_ids, dtype='int32'), \
+            np.array(input_masks, dtype='int32')
 
 
-
-
-
-def clean_text_mail():
-    pass
-
-def clean_text_linkedin():
-    pass
 
 def to_categorical(y,number_of_classes):
     '''
