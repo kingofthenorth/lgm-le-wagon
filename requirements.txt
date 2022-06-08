@@ -11,7 +11,7 @@ scikit-learn
 gensim
 gcld3
 colorama
-gensim.downloader
+#gensim.downloader
 time
 transformers
 sklearn
