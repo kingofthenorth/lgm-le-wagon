@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.helper import *
 
 from lgm_le_wagon.ml_logic.preprocessor import clean_text, add_language
-
+from lgm_le_wagon.interface.main import predict_ooo
 
 
 app = FastAPI()
@@ -31,39 +31,50 @@ def index():
     return dict(greeting="hello")
 
 @app.get("/predict")
-def predict(type,
-            reply,
-            first_message,
-            _id):
+def predict(type,reply,_id):
 
     if type == "GOOGLE_REPLY":   #GOOGLE_REPLY = mail
         return dict(
         type=['email detected'],
-        reply=[float(reply)],
-        _id=[float(_id)])
-
-
+        reply=["reply"],
+        _id=["id"])
 
     elif type == "LINKEDIN_HAS_REPLY":  #LINKEDIN_HAS_REPLY=linkedin
         return dict(
         type=['linkedin message detected'],
-        reply=[float(reply)],
-        _id=[float(_id)])
+        reply=["reply"],
+        _id=["id"])
 
     else:
         return dict(
         type=['type not detected'],
-        reply=[float(reply)],
-        _id=[float(_id)])
-
+        reply=["reply"],
+        _id=["id"])
 
 
 
 
 @app.get("/predict")
-def predict(type,reply,_id):
+def predict(type,reply, first_message,_id):
     cleaned_reply = clean_text(reply)
-    if type == "mail":
+    if type == "GOOGLE_REPLY":
+        X_pred = pd.DataFrame(dict(
+            type= type,
+            reply=reply,
+            first_message=first_message,
+            _id= _id
+            ))
+        y_pred = predict_ooo(X_pred)
+        if y_pred > 0.5:
+            return "it is an out of office automatique email"
+
+    langue = add_language(reply)
+    if langue == "fr":
+        return langue
+    elif langue == 'en':
+        return langue
+    else:
+        return langue
 
 
 
