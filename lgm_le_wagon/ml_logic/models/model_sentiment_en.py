@@ -1,7 +1,5 @@
 
-from pyexpat import XML_PARAM_ENTITY_PARSING_UNLESS_STANDALONE
-from pyexpat.errors import XML_ERROR_BAD_CHAR_REF
-from colorama import Fore, Style
+#from colorama import Fore, Style
 
 import time
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
@@ -17,13 +15,13 @@ from tensorflow.keras import layers, Model
 from transformers import TFDistilBertModel, DistilBertConfig, TFBertModel, BertConfig, TFBertForSequenceClassification
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping
-
 end = time.perf_counter()
 print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 
 from typing import Tuple
 
 import numpy as np
+
 
 def initialize_model():
     '''
@@ -67,9 +65,7 @@ def initialize_model():
 
 
 
-
-
-def train_model_sales(model: Model,
+def train_model_hr(model: Model,
                 X: np.ndarray,
                 y: np.ndarray,
                 batch_size=256,
@@ -122,13 +118,6 @@ def evaluate_model(model: Model,
     print(f"\n✅ model evaluated: loss {round(loss, 2)} mae {round(accuracy, 2)}")
 
     return metrics
-
-
-
-
-
-
-
 
 
 ########################### TAXIFARE #####################################

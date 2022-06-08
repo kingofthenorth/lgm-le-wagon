@@ -1,5 +1,15 @@
 
+from pyexpat import XML_PARAM_ENTITY_PARSING_UNLESS_STANDALONE
+from pyexpat.errors import XML_ERROR_BAD_CHAR_REF
 from colorama import Fore, Style
+from tensorflow import keras
+from tensorflow.keras import Model, layers
+from tensorflow.keras.layers import Dense, Dropout, Input, Lambda, LSTM, Dropout, Bidirectional
+
+from tensorflow.keras.callbacks import EarlyStopping
+from transformers import TFCamembertModel
+from tensorflow.keras.optimizers import Adam
+from transformers import CamembertTokenizer
 
 import time
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
@@ -15,69 +25,65 @@ from tensorflow.keras import layers, Model
 from transformers import TFDistilBertModel, DistilBertConfig, TFBertModel, BertConfig, TFBertForSequenceClassification
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping
+
 end = time.perf_counter()
 print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 
 from typing import Tuple
-
 import numpy as np
 
 
-def initialize_model():
-    '''
-    Initialize the model
-    '''
-    distil_bert = 'distilbert-base-uncased'
-    # Load pre-trained and add layers
-    config = DistilBertConfig(dropout=0.2, attention_dropout=0.2)
-    config.output_hidden_states = False
 
-    transformer_model = TFDistilBertModel.from_pretrained(distil_bert, config=config)
+def initialize_model() -> Model:
+    """
+    Create model with pre-trained layers
+    """
+    # Load pre-trained model
+    transformer_model = TFCamembertModel.from_pretrained('jplu/tf-camembert-base')
 
-    input_ids_in = layers.Input(shape=(128,), name='input_token', dtype='int32')
-    input_masks_in = layers.Input(shape=(128,), name='masked_token', dtype='int32')
+    # Define inputs
+    entrees_ids = layers.Input(shape=(128,), name='input_token', dtype='int32')
+    entrees_masks = layers.Input(shape=(128,), name='masked_token', dtype='int32')
 
-    # Extract embedding
-    embedding_layer = transformer_model(input_ids_in, attention_mask=input_masks_in)[0]
-    cls_token = embedding_layer[:, 0, :]
+    # Define outputs from pre-trained
+    sortie_camemBERT = transformer_model([entrees_ids, entrees_masks])[0]
+    l1 = Lambda(lambda seq: seq[:,0,:])(sortie_camemBERT)
 
-    # Add layers to be trained
-    X = layers.BatchNormalization()(cls_token)
+    # Add custom layers to tune pre-trained model
+    x = Dense(32, activation='relu')(l1)
+    x = Dropout(.2)(x)
+    x = Dense(16, activation='relu')(x)
+    outputs = Dense(3, activation='softmax')(x)
 
-    X = layers.Dense(80, activation='relu')(X)
+    # Define custom model
+    model = Model(inputs=[entrees_ids, entrees_masks], outputs = outputs)
 
+    # Freeze pre-trained layers
+    model.layers[2].trainable = False
 
-    X = layers.Dropout(config.dropout)(X)
+    model.compile(loss='categorical_crossentropy',
+                      optimizer=Adam(),
+                      metrics=['accuracy'])
 
-    # 3 classes
-    outputs = layers.Dense(3, activation='softmax')(X)
-
-    model = Model(inputs=[input_ids_in, input_masks_in], outputs=outputs)
-
-    # Set first 3 layers as non-trainable
-    for layer in model.layers[:3]:
-        layer.trainable = False
-
-    # Compile model
-    model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+    print("\n✅ model trained and compiled")
 
     return model
 
 
 
-def train_model_hr(model: Model,
+def train_model(model: Model,
                 X: np.ndarray,
                 y: np.ndarray,
-                batch_size=256,
-                validation_split=0.3,
-                ):
+                batch_size=32,
+                validation_split=0.2) -> Tuple[Model, dict]:
     """
-    Fit model and return a the tuple (fitted_model, history)
+    Fit model and return a tuple (fitted_model, history)
     """
 
-    print(Fore.BLUE + "\nTrain model..." + Style.RESET_ALL)
+#     print(Fore.BLUE + "\nTrain model..." + Style.RESET_ALL)
 
-    es = EarlyStopping(patience=2,
+    es = EarlyStopping(monitor="val_loss",
+                       patience=3,
                        restore_best_weights=True,
                        verbose=0)
 
@@ -87,11 +93,12 @@ def train_model_hr(model: Model,
                         epochs=100,
                         batch_size=batch_size,
                         callbacks=[es],
-                        verbose=0)
+                        verbose=1)
 
     print(f"\n✅ model trained ({len(X)} rows)")
 
     return model, history
+
 
 def evaluate_model(model: Model,
                    X: np.ndarray,
@@ -103,13 +110,11 @@ def evaluate_model(model: Model,
 
     print(Fore.BLUE + f"\nEvaluate model on {len(X)} rows..." + Style.RESET_ALL)
 
-
     metrics = model.evaluate(
-        X=X,
+        x=X,
         y=y,
         batch_size=batch_size,
         verbose=1,
-        # callbacks=None,
         return_dict=True)
 
     loss = metrics["loss"]
@@ -118,6 +123,12 @@ def evaluate_model(model: Model,
     print(f"\n✅ model evaluated: loss {round(loss, 2)} mae {round(accuracy, 2)}")
 
     return metrics
+
+
+
+
+
+
 
 
 ########################### TAXIFARE #####################################
