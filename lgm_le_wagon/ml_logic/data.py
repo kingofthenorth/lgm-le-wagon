@@ -12,35 +12,35 @@ def get_data(task=None):
     Returns: pandas.DataFrame with features and target for the required tasks
     """
     client = bigquery.Client()
-    
-    table = f"{GCP_PROJECT}.{GBQ_DATASET}.all_doccano"
+
+    table = f"{GCP_PROJECT}.{GBQ_DATASET}.training_set"
 
     query_string = f"""
         SELECT *
         FROM {table}
     """
-    
+
     if task == 'OOO':
         query_string = f"""
-        SELECT _id, reply, ooo
+        SELECT log_id, reply, ooo
         FROM {table}"""
     if task == 'Sales_RH':
         query_string = f"""
-        SELECT _id, first_message, sales, rh
+        SELECT log_id, first_message, sales, RH
         FROM {table}
         WHERE ooo = 0"""
     if task=='Sentiment':
         query_string = f"""
-        SELECT _id, reply, negative, neutral, positive
+        SELECT log_id, reply, negative, neutral, positive
         FROM {table}
         WHERE ooo = 0"""
-        
+
     df = (
         client.query(query_string)
         .result()
         .to_dataframe())
-    
+
     return df
 
 if __name__=="__main__":
-    print(get_data('Sentiment').head(5))
+    print(get_data('OOO').head(5))
