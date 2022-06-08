@@ -74,7 +74,7 @@ def preprocess_and_train_model_ooo(
 
     # model params
     #learning_rate = 0.001
-    batch_size = 16
+    batch_size = 64
 
     load_existing_model = False
     if first_row != 0:
@@ -151,8 +151,8 @@ def predict_ooo(X_pred: pd.DataFrame = None
 
 
 if __name__ == '__main__':
-    #preprocess_and_train_model_ooo()
-    predict_ooo()
+    preprocess_and_train_model_ooo()
+    #predict_ooo()
     #preprocess()
     #train()
     #pred()
