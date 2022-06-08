@@ -2,7 +2,11 @@ import numpy as np
 import pandas as pd
 
 from colorama import Fore, Style
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+import gensim.downloader as api
 
+word2vec_transfer = api.load("glove-wiki-gigaword-300")
 
 
 def clean_text_mail():
@@ -11,11 +15,58 @@ def clean_text_mail():
 def clean_text_linkedin():
     pass
 
+def to_categorical(y,number_of_classes):
+    '''
+    Take a dataframe column and create as many columns as classes
+    '''
+    y_cat = to_categorical(y,num_classes=number_of_classes)
+
+    return y_cat
+
 def words_to_vectors():
     pass
 
-def texts_to_embedding():
-    pass
+def embed_sentence_with_TF(word2vec, sentence):
+    '''
+    Function to convert a sentence (list of words) into a matrix representing the words in the embedding space
+    '''
+    embedded_sentence = []
+    for word in sentence:
+        if word in word2vec:
+            embedded_sentence.append(word2vec[word])
+
+    return np.array(embedded_sentence)
+
+def texts_to_embedding_with_transfer(word2vec:word2vec_transfer, sentences):
+    '''
+    Function that converts a list of sentences into a list of matrices
+    '''
+
+    embed = []
+
+    for sentence in sentences:
+        embedded_sentence = embed_sentence_with_TF(word2vec, sentence)
+        embed.append(embedded_sentence)
+
+    return embed
+
+def padding_embed(embed):
+    '''
+    Pad the embedded matrices
+    '''
+    padding = pad_sequences(embed, dtype='float32', padding='post', maxlen=200)
+
+    return padding
+
+def preproccess_for_ooo(X):
+    '''
+    Play ALL functions to preprocess for ooo prediction
+    '''
+    X_embed = texts_to_embedding_with_transfer(word2vec_transfer, X)
+    X_pad = padding_embed(X_embed)
+    return X_pad
+
+
 
 ########################### TAXIFARE #####################################
 
