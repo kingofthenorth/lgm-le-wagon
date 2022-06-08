@@ -1,12 +1,22 @@
-*.egg-info
-.coverage
-.ipynb_checkpoints
-.DS_Store
+# Data
 raw_data/
 *.csv
-**/__pycache__/
-.env
-.python-version
-notebooks/
 
+# Python / Package
+**/__pycache__/
+*.egg-info
+
+# Environment
+.env
+.envrc
+.python-version
+
+# Notebooks
+.ipynb_checkpoints
+notebooks/
 *.ipynb
+
+# Misc
+.coverage
+.DS_Store
+.vscode/

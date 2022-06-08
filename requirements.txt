@@ -11,6 +11,15 @@ pandas
 # API
 fastapi
 uvicorn
+mlflow
+psycopg2-binary
+s3fs
+
+# GCP
+google-cloud-bigquery
+gcsfs
+google-cloud-storage
+db-dtypes
 
 # utilities
 six>=1.14

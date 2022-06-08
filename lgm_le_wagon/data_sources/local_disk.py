@@ -1,9 +1,22 @@
 
+import csv
 import pandas as pd
 
 import os
 
 from colorama import Fore, Style
+
+def get_local_data():
+    """
+    return a chunk of the raw dataset from local disk
+    """
+
+    csv_path = os.path.join(os.getcwd(),"lgm_le_wagon","data_sources","local_replies.csv")
+    print(csv_path)
+
+    df = pd.read_csv(csv_path)
+
+    return df
 
 
 ########################### TAXIFARE #####################################

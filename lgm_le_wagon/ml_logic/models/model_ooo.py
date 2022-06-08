@@ -5,8 +5,7 @@ import time
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
 start = time.perf_counter()
 
-from tensorflow import keras
-from tensorflow.keras import Model, Sequential, layers, regularizers
+from tensorflow.keras import Model,Sequential, layers
 from tensorflow.keras.callbacks import EarlyStopping
 
 end = time.perf_counter()
@@ -16,17 +15,86 @@ from typing import Tuple
 
 import numpy as np
 
-def initialize_model():
-    pass
+def initialize_model_ooo() -> Model:
+    """
+    Initialize the Neural Network with random weights
+    """
+    print(Fore.BLUE + "\nInitialize model..." + Style.RESET_ALL)
 
-def compile_model():
-    pass
+    model = Sequential()
+    model.add(layers.Masking())
+    model.add(layers.LSTM(20, activation='tanh'))
+    model.add(layers.Dense(15, activation='relu'))
+    model.add(layers.Dense(1, activation='sigmoid'))
 
-def train_model():
-    pass
+    print("\n✅ model initialized")
 
-def evaluate_model():
-    pass
+    return model
+
+def compile_model(model:Model) -> Model:
+    """
+    Compile the Neural Network
+    """
+
+    model.compile(loss='binary_crossentropy',
+                  optimizer='rmsprop',
+                  metrics=['accuracy'])
+
+    print("\n✅ model compiled")
+
+    return model
+
+def train_model(model:Model,
+                X: np.ndarray,
+                y: np.ndarray,
+                batch_size=32,
+                validation_split=0.3) -> Tuple[Model, dict]:
+
+    """
+    Fit model and return a the tuple (fitted_model, history)
+    """
+
+    print(Fore.BLUE + "\nTrain model..." + Style.RESET_ALL)
+
+    es = EarlyStopping(patience=5, restore_best_weights=True)
+
+    history = model.fit(X, y,
+          batch_size = batch_size,
+          epochs=100,
+          validation_split=validation_split,
+          callbacks=[es]
+         )
+
+
+    print(f"\n✅ model trained ({len(X)} rows)")
+
+    return model, history
+
+def evaluate_model(model: Model,
+                   X: np.ndarray,
+                   y: np.ndarray,
+                   batch_size=32) -> Tuple[Model, dict]:
+    """
+    Evaluate trained model performance on dataset
+    """
+
+    print(Fore.BLUE + f"\nEvaluate model on {len(X)} rows..." + Style.RESET_ALL)
+
+
+    metrics = model.evaluate(
+        X=X,
+        y=y,
+        batch_size=batch_size,
+        verbose=1,
+        # callbacks=None,
+        return_dict=True)
+
+    loss = metrics["loss"]
+    accuracy = metrics["accuracy"]
+
+    print(f"\n✅ model evaluated: loss {round(loss, 2)} mae {round(accuracy, 2)}")
+
+    return metrics
 
 ########################### TAXIFARE #####################################
 

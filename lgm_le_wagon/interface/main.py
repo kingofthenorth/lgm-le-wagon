@@ -1,23 +1,29 @@
+import numpy as np
+import pandas as pd
 
-from ml_logic.data import get_data
 
-from ml_logic.params import (VALIDATION_DATASET_SIZE)
+from colorama import Fore, Style
 
-from ml_logic.preprocessor import (clean_text_mail,
-                                   clean_text_linkedin)
 
-from ml_logic.models import (model_ooo,
+#from lgm_le_wagon.ml_logic.data import get_data
+
+from lgm_le_wagon.data_sources.local_disk import get_local_data
+
+#from ml_logic.params import (VALIDATION_DATASET_SIZE)
+
+from lgm_le_wagon.ml_logic.preprocessor import (clean_text_mail,
+                                   clean_text_linkedin,
+                                   preproccess_for_ooo)
+
+from lgm_le_wagon.ml_logic.models import (model_ooo,
                              model_sales_or_hr,
                              model_sentiment_hr,
                              model_sentiment_sales)
 
-from ml_logic.registry import (save_model,
+from lgm_le_wagon.ml_logic.registry import (save_model,
                                 load_model)
 
-import numpy as np
-import pandas as pd
 
-from colorama import Fore, Style
 
 
 def preprocess():
@@ -26,11 +32,102 @@ def preprocess():
 def train():
     pass
 
-def preprocess_and_train():
-    pass
+def preprocess_and_train_model_ooo(
+    first_row=0
+    , stage="None"):
+    """
+    Load data in memory, clean and preprocess it, train a Keras model on it,
+    save the model, and finally compute & save a performance metric
+    on a validation set holdout at the `model.fit()` level
+    """
+
+    print("\n⭐️ use case: preprocess and train")
+
+    #retrieve the dataset
+    data = get_local_data() #<===== François
+                    #(source_name=f"train_{DATASET_SIZE}", #<====== .env
+                     #index=first_row,
+                     #chunk_size=None)  # retrieve all further data
+
+    if data is None:
+        print("\n✅ no data to preprocess and train")
+        return None
+
+    row_count = len(data)
+
+    # NO clean the dataset
+    data_cleaned = data # <====== NO CLEANING HERE
+
+    cleaned_row_count = len(data_cleaned)
+
+    if cleaned_row_count == 0:
+        print("\n✅ no data to preprocess and train after after data cleaning")
+        return None
+
+    # create X, y as pandas DataFrames
+    X = data["reply"].values #<========= define X
+    y = data["ooo"].values.astype('int64') #<========= define y
+
+
+    # preprocess X and return a numpy array
+    X_processed = preproccess_for_ooo(X)
+
+    # model params
+    #learning_rate = 0.001
+    batch_size = 32
+
+    load_existing_model = False
+    if first_row != 0:
+        load_existing_model = True
+
+    model = None
+    if load_existing_model:
+        model = load_model(
+            stage=stage
+        )
+
+    # initialize model
+    if model is None:
+        model = model_ooo.initialize_model_ooo()
+        model = model_ooo.compile_model(model)
+
+    # train model
+    model, history = model_ooo.train_model(model, X_processed, y, batch_size, validation_split=0.3)
+
+    # compute val_metrics
+    val_accuracy = np.min(history.history['val_accuracy'])
+    metrics = dict(val_accuracy=val_accuracy)
+
+    # save model
+    params = dict(
+        # hyper parameters
+        #learning_rate=learning_rate,
+        batch_size=batch_size,
+        # package behavior
+        context="preprocess and train",
+        # data source
+        first_row=first_row,
+        row_count=row_count,
+        cleaned_row_count=cleaned_row_count)
+
+    save_model(model=model, params=params, metrics=metrics)
+
+    print(f"\n✅ trained on {row_count} rows ({cleaned_row_count} cleaned) with accuracy {round(val_accuracy, 2)}")
+
+    return val_accuracy
+
+
 
 def pred():
     pass
+
+
+if __name__ == '__main__':
+    preprocess_and_train_model_ooo()
+    #preprocess()
+    #train()
+    #pred()
+    #evaluate(first_row=9000)
 ########################### TAXIFARE #####################################
 
 
@@ -388,11 +485,3 @@ def pred():
 #     print("\n✅ prediction done: ", y_pred, y_pred.shape)
 
 #     return y_pred
-
-
-# if __name__ == '__main__':
-#     preprocess_and_train()
-#     preprocess()
-#     train()
-#     pred()
-#     evaluate(first_row=9000)
