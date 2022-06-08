@@ -23,6 +23,7 @@ colorama
 mlflow
 psycopg2-binary
 s3fs
+uvicorn
 
 # GCP
 google-cloud-bigquery
