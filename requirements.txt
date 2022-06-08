@@ -14,7 +14,6 @@ colorama
 transformers
 sklearn
 
-
 # tests/linter
 black
 coverage
