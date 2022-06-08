@@ -118,8 +118,34 @@ def preprocess_and_train_model_ooo(
 
 
 
-def pred():
-    pass
+def predict_ooo(X_pred: pd.DataFrame = None
+    , stage="None"
+) -> np.ndarray:
+    """
+    Make a prediction using the latest trained model
+    """
+
+    print("\n⭐️ use case: predict if OoO")
+
+    if X_pred is None:
+
+        X_pred = pd.DataFrame(dict(
+            _id=["xxxx"],  # useless but the pipeline requires it
+            reply=["Hi, I am out of office"],
+            ))
+
+    model = load_model(
+        stage=stage
+    )
+
+    X_processed = preproccess_for_ooo(X_pred)
+
+    y_pred = model.predict(X_processed)
+
+    print("\n✅ prediction OoO done: ", y_pred, y_pred.shape)
+
+    return y_pred
+
 
 
 if __name__ == '__main__':
