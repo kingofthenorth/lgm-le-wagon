@@ -5,9 +5,10 @@ import pandas as pd
 from colorama import Fore, Style
 
 
-#from lgm_le_wagon.ml_logic.data import get_data
+from lgm_le_wagon.ml_logic.data import get_data
 
-from lgm_le_wagon.data_sources.local_disk import get_local_data
+
+#from lgm_le_wagon.data_sources.local_disk import get_local_data
 
 #from ml_logic.params import (VALIDATION_DATASET_SIZE)
 
@@ -22,6 +23,8 @@ from lgm_le_wagon.ml_logic.models import (model_ooo,
 
 from lgm_le_wagon.ml_logic.registry import (save_model,
                                 load_model)
+
+
 
 
 
@@ -43,7 +46,7 @@ def preprocess_and_train_model_ooo(
     print("\n⭐️ use case: preprocess and train")
 
     #retrieve the dataset
-    data = get_local_data() #<===== François
+    data = get_data(task='ooo') #<===== François
                     #(source_name=f"train_{DATASET_SIZE}", #<====== .env
                      #index=first_row,
                      #chunk_size=None)  # retrieve all further data
@@ -150,7 +153,7 @@ def predict_ooo(X_pred: pd.DataFrame = None
 
 
 if __name__ == '__main__':
-    #preprocess_and_train_model_ooo()
+    preprocess_and_train_model_ooo()
     predict_ooo()
     #preprocess()
     #train()
