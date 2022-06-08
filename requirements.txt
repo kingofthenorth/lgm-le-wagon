@@ -24,6 +24,7 @@ mlflow
 psycopg2-binary
 s3fs
 uvicorn
+fastapi
 
 # GCP
 google-cloud-bigquery
