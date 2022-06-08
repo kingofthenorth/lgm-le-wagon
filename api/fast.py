@@ -9,6 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from api.helper import *
 
+from lgm_le_wagon.ml_logic.preprocessor import clean_text, add_language
+
 
 
 app = FastAPI()
@@ -63,29 +65,13 @@ def predict(type,
 
 
 
-   """ @app.get("/predict")
-    def predict(type,
-            reply,
-            first_message,
-            _id):
+@app.get("/predict")
+def predict(type,reply,_id):
+    cleaned_reply = clean_text(reply)
+    if type == "mail":
 
-        if type == "GOOGLE_REPLY":   #GOOGLE_REPLY = mail
-            if is_ooo(reply)==True:
-                pass
-            else:
-                sales_pred = sales_sentiment(reply)
 
-            return {"log_id":_id, "identity": "sales", "sentiment":sales_pred}
 
-        else:
-            if is_rh(reply)==True:
-                identity = "rh"
-                rh_pred = rh_sentiment(reply)
-            else:
-                identity = "sales"
-                sales_pred = sales_sentiment(reply)
-
-            return {"log_id":_id, "identity":identity, "sentiment":sales_pred} """
 
 
 
