@@ -4,8 +4,9 @@ install_package:
 run:
 	@python lgm_le_wagon/interface/main.py
 
-# project id
-PROJECT_ID=la-growth-machine-le-wagon
+run_api:
+	uvicorn lgm_le_wagon.fast:app --reload
+#quel chemin pour l'API?
 
 # bucket name
 BUCKET_NAME=lgm-data
