@@ -1,31 +1,13 @@
-
-from pyexpat import XML_PARAM_ENTITY_PARSING_UNLESS_STANDALONE
-from pyexpat.errors import XML_ERROR_BAD_CHAR_REF
 from colorama import Fore, Style
-from tensorflow import keras
-from tensorflow.keras import Model, layers
-from tensorflow.keras.layers import Dense, Dropout, Input, Lambda, LSTM, Dropout, Bidirectional
-
-from tensorflow.keras.callbacks import EarlyStopping
-from transformers import TFCamembertModel
-from tensorflow.keras.optimizers import Adam
-from transformers import CamembertTokenizer
 
 import time
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
 start = time.perf_counter()
-
-from tensorflow import keras
-from tensorflow.keras import Model, Sequential, layers, regularizers
+from tensorflow.keras import Model
+from tensorflow.keras.layers import Dense, Dropout, Input, Lambda, Dropout
 from tensorflow.keras.callbacks import EarlyStopping
-from tensorflow import convert_to_tensor
-from tensorflow.keras.utils import to_categorical
-from transformers import DistilBertTokenizer, BertTokenizer
-from tensorflow.keras import layers, Model
-from transformers import TFDistilBertModel, DistilBertConfig, TFBertModel, BertConfig, TFBertForSequenceClassification
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.callbacks import EarlyStopping
-
+from transformers import TFCamembertModel
+from tensorflow.keras.optimizers import Adam
 end = time.perf_counter()
 print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 
@@ -42,8 +24,8 @@ def initialize_model() -> Model:
     transformer_model = TFCamembertModel.from_pretrained('jplu/tf-camembert-base')
 
     # Define inputs
-    entrees_ids = layers.Input(shape=(128,), name='input_token', dtype='int32')
-    entrees_masks = layers.Input(shape=(128,), name='masked_token', dtype='int32')
+    entrees_ids = Input(shape=(128,), name='input_token', dtype='int32')
+    entrees_masks = Input(shape=(128,), name='masked_token', dtype='int32')
 
     # Define outputs from pre-trained
     sortie_camemBERT = transformer_model([entrees_ids, entrees_masks])[0]
