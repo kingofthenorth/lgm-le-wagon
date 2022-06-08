@@ -9,6 +9,20 @@ import gensim.downloader as api
 word2vec_transfer = api.load("glove-wiki-gigaword-300")
 
 
+
+def clean_text(string):
+    '''
+    Take a string and keep if string >20 and <1450
+    '''
+    if string.len() < 1450 and string.len() >20:
+        return string
+    else:
+        None
+
+
+
+
+
 def clean_text_mail():
     pass
 
