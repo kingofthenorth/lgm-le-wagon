@@ -1,12 +1,12 @@
 """
-taxifare model package params
-load and validate the environment variables in the `.env`
+Load and validate the environment variables in the `.env`
 """
 
 import os
 
-import numpy as np
-
+GCP_PROJECT=os.getenv('GCP_PROJECT')
+GCS_BUCKET=os.getenv('GCS_BUCKET')
+GBQ_DATASET=os.getenv('GBQ_DATASET')
 
 ########################### TAXIFARE #####################################
 
