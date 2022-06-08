@@ -60,7 +60,7 @@ def train_model(model:Model,
 
     history = model.fit(X, y,
           batch_size = batch_size,
-          epochs=100,
+          epochs=1,
           validation_split=validation_split,
           callbacks=[es]
          )
