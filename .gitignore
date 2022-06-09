@@ -8,7 +8,7 @@ raw_data/
 
 # Assets
 **/assets/*.npy
-**/assets/glove-wiki
+**/assets/assets_glove-wiki
 
 # Environment
 .env
