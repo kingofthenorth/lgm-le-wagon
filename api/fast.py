@@ -3,8 +3,10 @@ import pandas as pd
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from lgm_le_wagon.ml_logic.preprocessor import clean_text, add_language
-from lgm_le_wagon.interface.main import predict_ooo
+from lgm_le_wagon.ml_logic.preprocessor import add_language
+#from lgm_le_wagon.interface.main import predict_ooo
+from lgm_le_wagon.interface.main_en import pred_en
+from lgm_le_wagon.interface.mainfr import pred_fr
 
 
 app = FastAPI()
@@ -22,34 +24,60 @@ app.add_middleware(
 
 @app.get("/")
 def index():
-    return dict(greeting="hello Sam")
+    return dict(greeting="hello Sam how are you?")
 
 
 @app.get("/predict")
 def predict(type,reply, first_message,_id):
 
-    reply = clean_text(reply)
+    #reply = clean_text(reply)
 
-    if type == "GOOGLE_REPLY":
-        X_pred = pd.DataFrame(dict(
+    # if type == "GOOGLE_REPLY":
+    #     X_pred = pd.DataFrame(dict(
+    #         type= type,
+    #         reply=reply,
+    #         first_message=first_message,
+    #         _id= _id
+    #         ), index=[0])
+    #     print(X_pred)
+    #     y_pred,X_processed = predict_ooo(X_pred)
+    #     print(y_pred)
+    #     print(X_processed)
+
+    #     if y_pred > 0.5:
+    #         return {"Exception" : "Automatic reply detected, possibility of out of office"}
+
+    langue = add_language(reply)
+    if langue == "fr":
+        X_pred_fr = pd.DataFrame(dict(
             type= type,
             reply=reply,
             first_message=first_message,
             _id= _id
             ), index=[0])
-        y_pred = predict_ooo(X_pred)
 
-        if y_pred > 0.5:
-            return {"error" : "it is an out of office automatic email"}
-
-    langue = add_language(reply)
-    if langue == "fr":
-        return {"langue" : langue}
+        y_pred_fr = pred_fr(X_pred_fr)
+        return {"Sentiment analysis" : f'{y_pred_fr}'}
     elif langue == 'en':
-        return {"langue" : langue}
+        X_pred_en = pd.DataFrame(dict(
+            type= type,
+            reply=reply,
+            first_message=first_message,
+            _id= _id
+            ), index=[0])
+
+        y_pred_en = pred_en(X_pred_en)
+        return {"Sentiment analysis" : f'{y_pred_en}'}
     else:
         return {"langue" : langue}
 
+
+# X_pred = pd.DataFrame(dict(
+#             type=['GOOGLE'],
+#             reply=["I am not interested, don't contact me anymore"],
+#             first_message=['Voici notre nouveau produit'],
+#             _id=['xxxxxxxxxxxxxxxxxxxx']
+#             ))
 
 
 

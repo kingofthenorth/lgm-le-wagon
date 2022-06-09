@@ -11,6 +11,29 @@ from colorama import Fore, Style
 from tensorflow import keras
 from tensorflow.keras import Model # <===== from tensorflow.keras prev.
 
+from google.cloud import storage
+
+
+def save_model_to_bucket_fr(
+               model: Model = None,) -> None:
+    bucket_name = os.getenv('GCS_BUCKET')
+    filename='model_sentiment_fr'
+    model.save(filename)
+    #storage_client = storage.Client()
+    os.system(f'gsutil -m cp -R {filename} gs://{bucket_name}/assets/')
+    print(':white_check_mark: model saved ')
+    return
+
+def save_model_to_bucket_en(
+               model: Model = None,) -> None:
+    bucket_name = os.getenv('GCS_BUCKET')
+    filename='model_sentiment_en'
+    model.save(filename)
+    #storage_client = storage.Client()
+    os.system(f'gsutil -m cp -R {filename} gs://{bucket_name}/assets/')
+    print(':white_check_mark: model saved ')
+    return
+
 def save_model(#experiment: str = None,
                model: Model = None,
                params: dict = None,

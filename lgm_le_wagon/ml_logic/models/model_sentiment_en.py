@@ -9,7 +9,6 @@ from tensorflow import keras
 from tensorflow.keras import Model, Sequential, layers, regularizers
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow import convert_to_tensor
-from tensorflow.keras.utils import to_categorical
 from transformers import DistilBertTokenizer, BertTokenizer
 from tensorflow.keras import layers, Model
 from transformers import TFDistilBertModel, DistilBertConfig, TFBertModel, BertConfig, TFBertForSequenceClassification
@@ -21,6 +20,7 @@ print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 from typing import Tuple
 
 import numpy as np
+import os
 
 
 def initialize_model():
@@ -32,7 +32,10 @@ def initialize_model():
     config = DistilBertConfig(dropout=0.2, attention_dropout=0.2)
     config.output_hidden_states = False
 
-    transformer_model = TFDistilBertModel.from_pretrained(distil_bert, config=config)
+    #transformer_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","local-distilbert-base-uncased")
+    transformer_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","local-distilbert-base-uncased")
+
+    transformer_model = TFDistilBertModel.from_pretrained(transformer_path)
 
     input_ids_in = layers.Input(shape=(128,), name='input_token', dtype='int32')
     input_masks_in = layers.Input(shape=(128,), name='masked_token', dtype='int32')
@@ -65,10 +68,10 @@ def initialize_model():
 
 
 
-def train_model_hr(model: Model,
+def train_model(model: Model,
                 X: np.ndarray,
                 y: np.ndarray,
-                batch_size=256,
+                batch_size=32,
                 validation_split=0.3,
                 ):
     """
@@ -77,7 +80,7 @@ def train_model_hr(model: Model,
 
     print(Fore.BLUE + "\nTrain model..." + Style.RESET_ALL)
 
-    es = EarlyStopping(patience=2,
+    es = EarlyStopping(patience=4,
                        restore_best_weights=True,
                        verbose=0)
 
@@ -87,37 +90,14 @@ def train_model_hr(model: Model,
                         epochs=100,
                         batch_size=batch_size,
                         callbacks=[es],
-                        verbose=0)
+                        verbose=1)
 
     print(f"\n✅ model trained ({len(X)} rows)")
 
     return model, history
 
-def evaluate_model(model: Model,
-                   X: np.ndarray,
-                   y: np.ndarray,
-                   batch_size=32) -> Tuple[Model, dict]:
-    """
-    Evaluate trained model performance on dataset
-    """
-
-    print(Fore.BLUE + f"\nEvaluate model on {len(X)} rows..." + Style.RESET_ALL)
-
-
-    metrics = model.evaluate(
-        X=X,
-        y=y,
-        batch_size=batch_size,
-        verbose=1,
-        # callbacks=None,
-        return_dict=True)
-
-    loss = metrics["loss"]
-    accuracy = metrics["accuracy"]
-
-    print(f"\n✅ model evaluated: loss {round(loss, 2)} mae {round(accuracy, 2)}")
-
-    return metrics
+if __name__ == '__main__':
+    initialize_model()
 
 
 ########################### TAXIFARE #####################################
