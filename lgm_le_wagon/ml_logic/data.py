@@ -35,7 +35,6 @@ def get_data(task=None):
         FROM {table}
         WHERE language = 'fr'
         AND ooo = 0"""
-
     if task=='Sentiment_EN':
         query_string = f"""
         SELECT log_id, reply, language, negative, neutral, positive
@@ -50,5 +49,21 @@ def get_data(task=None):
 
     return df
 
+def get_storage_data(task=None):
+    data = pd.read_csv('gs://lgm-data/training_set.csv')
+    
+    if task == 'OOO':
+        df = data[['log_id', 'reply', 'ooo']]
+    
+    if task == 'Sentiment_FR':
+        df = data.query('language == "fr" and ooo == 0') \
+            [['log_id', 'reply', 'negative', 'neutral', 'positive']]
+
+    if task == 'Sentiment_EN':
+        df = data.query('language == "en" and ooo == 0')\
+            [['log_id', 'reply', 'negative', 'neutral', 'positive']]
+
+    return df
+    
 if __name__=="__main__":
-    print(get_data('OOO').head(5))
+    print(get_data('Sentiment_FR').head(5))

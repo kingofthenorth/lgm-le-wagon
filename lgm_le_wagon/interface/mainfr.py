@@ -8,7 +8,7 @@ from colorama import Fore, Style
 #from lgm_le_wagon.ml_logic.data import get_data
 
 #from lgm_le_wagon.data_sources.local_disk import get_local_data
-from lgm_le_wagon.ml_logic.data import get_data
+from lgm_le_wagon.ml_logic.data import get_data, get_storage_data
 from lgm_le_wagon.ml_logic.preprocessor import create_tokenizer_fr, tokenize
 from lgm_le_wagon.ml_logic.models.model_sentiment_fr import initialize_model, train_model, evaluate_model
 from lgm_le_wagon.ml_logic.registry import (save_model,
@@ -25,7 +25,7 @@ def preprocess_and_train_SAFR():
     on a validation set holdout at the `model.fit()` level
     """
 
-    df = get_data(task="Sentiment_FR")
+    df = get_storage_data(task="Sentiment_FR")
     X_FR = df["reply"]
     y_FR = df[["negative", "neutral", "positive"]]
     X_FR_train, X_FR_test, y_FR_train, y_FR_test = train_test_split(X_FR, y_FR, test_size=0.3)
