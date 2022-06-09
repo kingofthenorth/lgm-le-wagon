@@ -28,7 +28,7 @@ app.add_middleware(
 
 @app.get("/")
 def index():
-    return dict(greeting="hello")
+    return dict(greeting="hello Sam")
 
 @app.get("/predict")
 def predict(type,reply,_id):
