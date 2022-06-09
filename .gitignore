@@ -6,6 +6,10 @@ raw_data/
 **/__pycache__/
 *.egg-info
 
+# Assets
+**/assets/*.npy
+**/assets/glove-wiki
+
 # Environment
 .env
 .envrc
