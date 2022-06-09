@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pandas as pd
 
@@ -5,13 +7,16 @@ from colorama import Fore, Style
 import gcld3
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-import gensim.downloader as api
 from transformers import CamembertTokenizer
 from tensorflow import convert_to_tensor
+from gensim.models import KeyedVectors
 
-word2vec_transfer = api.load("glove-wiki-gigaword-300")
+assets_path = os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__)    
+))
 
-
+word2vec_transfer = KeyedVectors.load(os.path.join(
+    assets_path, 'glove-wiki'))
 
 def clean_text(string):
     '''
