@@ -11,9 +11,7 @@ from lgm_le_wagon.ml_logic.data import get_data
 
 #from ml_logic.params import (VALIDATION_DATASET_SIZE)
 
-from lgm_le_wagon.ml_logic.preprocessor import (clean_text_mail,
-                                   clean_text_linkedin,
-                                   preproccess_for_ooo)
+from lgm_le_wagon.ml_logic.preprocessor import (preproccess_for_ooo)
 
 from lgm_le_wagon.ml_logic.models import (model_ooo,
                              model_sales_or_hr,
@@ -110,7 +108,7 @@ def preprocess_and_train_model_ooo(
 
 
 def predict_ooo(X_pred: pd.DataFrame = None
-    , stage="None"
+    , stage="Production"
 ) -> np.ndarray:
     """
     Make a prediction using the latest trained model
@@ -142,7 +140,7 @@ def predict_ooo(X_pred: pd.DataFrame = None
 
 
 if __name__ == '__main__':
-    preprocess_and_train_model_ooo()
+    #preprocess_and_train_model_ooo()
     predict_ooo()
     #preprocess()
     #train()

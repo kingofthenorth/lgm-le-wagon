@@ -11,6 +11,8 @@ scikit-learn
 gensim
 gcld3
 colorama
+gensim.downloader
+time
 transformers
 sklearn
 
@@ -23,6 +25,9 @@ yapf
 colorama
 
 # API
+
+fastapi
+uvicorn
 mlflow
 psycopg2-binary
 s3fs
