@@ -13,6 +13,7 @@ print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 
 from typing import Tuple
 import numpy as np
+import os
 
 
 
@@ -21,7 +22,8 @@ def initialize_model() -> Model:
     Create model with pre-trained layers
     """
     # Load pre-trained model
-    transformer_model = TFCamembertModel.from_pretrained('jplu/tf-camembert-base')
+    transformer_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","local-jplu-tf-camembert-base")
+    transformer_model = TFCamembertModel.from_pretrained(transformer_path)
 
     # Define inputs
     entrees_ids = Input(shape=(128,), name='input_token', dtype='int32')
@@ -82,7 +84,8 @@ def train_model(model: Model,
     return model, history
 
 
-
+if __name__ == '__main__':
+    initialize_model()
 
 
 ########################### TAXIFARE #####################################

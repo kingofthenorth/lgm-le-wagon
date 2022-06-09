@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from colorama import Fore, Style
+import os
 
 
 #from lgm_le_wagon.ml_logic.data import get_data
@@ -76,6 +77,8 @@ def pred_fr(X_pred=None) -> np.ndarray:
 
     model = initialize_model()
     model_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","model_sentiment_fr","variables","variables")
+    #model_path = os.path.join(os.getcwd(),"model_sentiment_fr","variables","variables")
+
 
     model.load_weights(model_path)
 

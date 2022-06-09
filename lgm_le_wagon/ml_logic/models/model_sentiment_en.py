@@ -20,6 +20,7 @@ print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 from typing import Tuple
 
 import numpy as np
+import os
 
 
 def initialize_model():
@@ -31,7 +32,10 @@ def initialize_model():
     config = DistilBertConfig(dropout=0.2, attention_dropout=0.2)
     config.output_hidden_states = False
 
-    transformer_model = TFDistilBertModel.from_pretrained(distil_bert, config=config)
+    #transformer_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","local-distilbert-base-uncased")
+    transformer_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","local-distilbert-base-uncased")
+
+    transformer_model = TFDistilBertModel.from_pretrained(transformer_path)
 
     input_ids_in = layers.Input(shape=(128,), name='input_token', dtype='int32')
     input_masks_in = layers.Input(shape=(128,), name='masked_token', dtype='int32')
@@ -92,7 +96,8 @@ def train_model(model: Model,
 
     return model, history
 
-
+if __name__ == '__main__':
+    initialize_model()
 
 
 ########################### TAXIFARE #####################################

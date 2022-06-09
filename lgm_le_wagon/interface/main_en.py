@@ -78,6 +78,8 @@ def pred_en(X_pred=None) -> np.ndarray:
 
     model = initialize_model()
     model_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","model_sentiment_en","variables","variables")
+    #model_path = os.path.join(os.getcwd(),"model_sentiment_en","variables","variables")
+
 
     model.load_weights(model_path)
     print("model_en weight loaded")
