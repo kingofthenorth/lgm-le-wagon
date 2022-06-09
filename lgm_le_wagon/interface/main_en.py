@@ -94,8 +94,8 @@ def pred_en(X_pred=None) -> np.ndarray:
 
 
 if __name__ == '__main__':
-    preprocess_and_train_SAEN()
+    #preprocess_and_train_SAEN()
     #preprocess()
     #train()
-    #pred_en()
+    pred_en()
     #evaluate(first_row=9000)
