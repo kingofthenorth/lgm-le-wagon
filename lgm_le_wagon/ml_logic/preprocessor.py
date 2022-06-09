@@ -11,18 +11,18 @@ from transformers import CamembertTokenizer
 from tensorflow import convert_to_tensor
 from gensim.models import KeyedVectors
 
-assets_path = os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__)    
-))
+assets_path = os.path.join(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__)
+)), 'assets')
 
 word2vec_transfer = KeyedVectors.load(os.path.join(
-    assets_path, 'glove-wiki'))
+    assets_path, 'assets_glove-wiki'))
 
 def clean_text(string):
     '''
     Take a string and keep if string >20 and <1450
     '''
-    if string.len() < 1450 and string.len() >20:
+    if len(string) < 1450 and len(string) >20:
         return string
     else:
         "Text is >1500 .../ NA"

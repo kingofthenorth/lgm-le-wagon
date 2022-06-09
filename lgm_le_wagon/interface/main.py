@@ -11,9 +11,7 @@ from lgm_le_wagon.ml_logic.data import get_data
 
 #from ml_logic.params import (VALIDATION_DATASET_SIZE)
 
-from lgm_le_wagon.ml_logic.preprocessor import (clean_text_mail,
-                                   clean_text_linkedin,
-                                   preproccess_for_ooo)
+from lgm_le_wagon.ml_logic.preprocessor import (preproccess_for_ooo)
 
 from lgm_le_wagon.ml_logic.models import (model_ooo,
                              model_sales_or_hr,
