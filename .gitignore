@@ -9,10 +9,6 @@ raw_data/
 # Assets
 **/assets/*.npy
 **/assets/assets_glove-wiki
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 # Environment
 .env
 .envrc

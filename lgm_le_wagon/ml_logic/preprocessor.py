@@ -7,7 +7,7 @@ from colorama import Fore, Style
 import gcld3
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from transformers import CamembertTokenizer
+from transformers import CamembertTokenizer, DistilBertTokenizer
 from tensorflow import convert_to_tensor
 from gensim.models import KeyedVectors
 
@@ -58,12 +58,13 @@ def create_tokenizer_en(max_length=128):
     Create a tokenizer that pads and truncates according to max_length
     Returns input_token_ids and input_masks
     """
-    tokenizer_en = CamembertTokenizer \
-        .from_pretrained('distilbert-base-uncased',
-                         do_lower_case=True,
-                         add_special_tokens=True,
-                         max_length=max_length,
-                         pad_to_max_length=True)
+    distil_bert = 'distilbert-base-uncased'
+    tokenizer_en = DistilBertTokenizer \
+        .from_pretrained(distil_bert,
+                        do_lower_case=True,
+                        add_special_tokens=True,
+                        max_length=128,
+                        pad_to_max_length=True)
     return tokenizer_en
 
 def tokenize(sentences, tokenizer):

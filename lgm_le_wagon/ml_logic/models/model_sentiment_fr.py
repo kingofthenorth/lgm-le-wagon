@@ -82,29 +82,7 @@ def train_model(model: Model,
     return model, history
 
 
-def evaluate_model(model: Model,
-                   X: np.ndarray,
-                   y: np.ndarray,
-                   batch_size=32) -> Tuple[Model, dict]:
-    """
-    Evaluate trained model performance on dataset
-    """
 
-    print(Fore.BLUE + f"\nEvaluate model on {len(X)} rows..." + Style.RESET_ALL)
-
-    metrics = model.evaluate(
-        x=X,
-        y=y,
-        batch_size=batch_size,
-        verbose=1,
-        return_dict=True)
-
-    loss = metrics["loss"]
-    accuracy = metrics["accuracy"]
-
-    print(f"\n✅ model evaluated: loss {round(loss, 2)} mae {round(accuracy, 2)}")
-
-    return metrics
 
 
 

@@ -10,7 +10,7 @@ from colorama import Fore, Style
 #from lgm_le_wagon.data_sources.local_disk import get_local_data
 from lgm_le_wagon.ml_logic.data import get_data, get_storage_data
 from lgm_le_wagon.ml_logic.preprocessor import create_tokenizer_fr, tokenize
-from lgm_le_wagon.ml_logic.models.model_sentiment_fr import initialize_model, train_model, evaluate_model
+from lgm_le_wagon.ml_logic.models.model_sentiment_fr import initialize_model, train_model
 from lgm_le_wagon.ml_logic.registry import (save_model,
                                 load_model)
 #from ml_logic.params import (VALIDATION_DATASET_SIZE)
@@ -57,73 +57,39 @@ def preprocess_and_train_SAFR():
 
     return val_accuracy, model
 
-def evaluate_SAFR(model):
 
-    df = get_storage_data(task="Sentiment_FR")
-    X_FR = df["reply"]
-    y_FR = df[["negative", "neutral", "positive"]]
-    X_FR_train, X_FR_test, y_FR_train, y_FR_test = train_test_split(X_FR, y_FR, test_size=0.3)
-
-    tokenizer = create_tokenizer_fr()
-    inputs_ids_test, input_masks_test = tokenize(test, tokenizer)
-
-    #Tokenize our test
-    inputs_ids_test, input_masks_test = tokenize(X_FR_test, tokenizer)
-
-    #evaluate our model
-    evaluate_model(model, [inputs_ids_test, input_masks_test] ,y_FR_test, batch_size=32)
-
-    #     # save evaluation
-    # params = dict(
-    #     # package behavior
-    #     context="evaluate",
-    #     # data source
-    #     first_row=first_row,
-    #     row_count=len(X_new_processed))
-
-    # save_model(params=params, metrics=metrics_dict)
-    #loss = metrics["loss"]
-    #accuracy = metrics["accuracy"]
-    #mae = metrics_dict["mae"]
-
-    return print('evaluated')
-
-def pred(
-    X_pred: pd.DataFrame = None
-    , stage="None"
-) -> np.ndarray:
+def pred_fr(X_pred=None) -> np.ndarray:
     """
     Make a prediction using the latest trained model
     """
 
-    print("\n⭐️ use case: predict")
+    print("\n⭐️ use case: predict if Positive/neutral/negative sentiment")
 
-    # if X_pred is None:
+    if X_pred is None:
 
-        # X_pred = pd.DataFrame(dict(
-        #     key=["2013-07-06 17:18:00"],  # useless but the pipeline requires it
-        #     pickup_datetime=["2013-07-06 17:18:00 UTC"],
-        #     pickup_longitude=[-73.950655],
-        #     pickup_latitude=[40.783282],
-        #     dropoff_longitude=[-73.984365],
-        #     dropoff_latitude=[40.769802],
-        #     passenger_count=[1]))
+        X_pred = pd.DataFrame(dict(
+            type=['GOOGLE'],
+            reply=["je ne suis pas intéréssé, ne m'écrivez plus, connard"],
+            first_message=['Voici notre nouveau produit'],
+            _id=['xxxxxxxxxxxxxxxxxxxx']
+            ))
 
-    model = load_model(
-        stage=stage
-    )
+    model = initialize_model()
+    model.load_weights('/Users/artusgranier/code/kingofthenorth/model_sentiment_fr/variables/variables')
+    print("model weight loaded")
 
-    X_processed = preprocess_features(X_pred)
+    tokenizer = create_tokenizer_fr()
+    inputs_ids, input_masks = tokenize(X_pred["reply"], tokenizer)
 
-    y_pred = model.predict(X_processed)
 
-    print("\n✅ prediction done: ", y_pred, y_pred.shape)
+    y_pred = model.predict([inputs_ids, input_masks])
+
+    print(f"\n✅ prediction SA_FR done: Sentiment of this reply is {y_pred}")
 
     return y_pred
 
 if __name__ == '__main__':
-    preprocess_and_train_SAFR()
+    #preprocess_and_train_SAFR()
     #preprocess()
     #train()
-    #pred()
-    evaluate_SAFR()
+    pred_fr()
