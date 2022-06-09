@@ -44,7 +44,7 @@ def create_tokenizer_fr(max_length=128):
         .from_pretrained('jplu/tf-camembert-base',
                          do_lower_case=True,
                          add_special_tokens=True,
-                         max_length=128,
+                         max_length=max_length,
                          pad_to_max_length=True)
     return tokenizer_fr
 
@@ -57,7 +57,7 @@ def create_tokenizer_en(max_length=128):
         .from_pretrained('distilbert-base-uncased',
                          do_lower_case=True,
                          add_special_tokens=True,
-                         max_length=128,
+                         max_length=max_length,
                          pad_to_max_length=True)
     return tokenizer_en
 
@@ -76,8 +76,8 @@ def tokenize(sentences, tokenizer):
         input_ids.append(inputs['input_ids'])
         input_masks.append(inputs['attention_mask'])
 
-    return np.array(input_ids, dtype='int32'), \
-            np.array(input_masks, dtype='int32')
+    return convert_to_tensor(input_ids, dtype='int32'), \
+            convert_to_tensor(input_masks, dtype='int32')
 
 
 
