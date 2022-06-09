@@ -110,7 +110,7 @@ def preprocess_and_train_model_ooo(
 
 
 def predict_ooo(X_pred: pd.DataFrame = None
-    , stage="None"
+    , stage="Production"
 ) -> np.ndarray:
     """
     Make a prediction using the latest trained model
@@ -142,11 +142,7 @@ def predict_ooo(X_pred: pd.DataFrame = None
 
 
 if __name__ == '__main__':
-<<<<<<< HEAD
     #preprocess_and_train_model_ooo()
-=======
-    preprocess_and_train_model_ooo()
->>>>>>> master
     predict_ooo()
     #preprocess()
     #train()

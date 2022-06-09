@@ -11,11 +11,8 @@ scikit-learn
 gensim
 gcld3
 colorama
-<<<<<<< HEAD
-#gensim.downloader
+gensim.downloader
 time
-=======
->>>>>>> master
 transformers
 sklearn
 
