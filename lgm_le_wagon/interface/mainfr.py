@@ -75,8 +75,11 @@ def pred_fr(X_pred=None) -> np.ndarray:
             ))
 
     model = initialize_model()
-    model.load_weights('/Users/artusgranier/code/kingofthenorth/model_sentiment_fr/variables/variables')
-    print("model weight loaded")
+    model_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","model_sentiment_fr","variables","variables")
+
+    model.load_weights(model_path)
+
+    print("model_fr weight loaded")
 
     tokenizer = create_tokenizer_fr()
     inputs_ids, input_masks = tokenize(X_pred["reply"], tokenizer)

@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from colorama import Fore, Style
-
+import os
 
 #from lgm_le_wagon.ml_logic.data import get_data
 
@@ -65,7 +65,7 @@ def pred_en(X_pred=None) -> np.ndarray:
     Make a prediction using the latest trained model
     """
 
-    print("\n⭐️ use case: predict if OoO")
+    print("\n⭐️ use case: predict if Positive/neutral/negative sentiment")
 
     if X_pred is None:
 
@@ -77,8 +77,10 @@ def pred_en(X_pred=None) -> np.ndarray:
             ))
 
     model = initialize_model()
-    model.load_weights('/Users/artusgranier/code/kingofthenorth/model_sentiment_en/variables/variables')
-    print("model weight loaded")
+    model_path = os.path.join(os.getcwd(),"lgm_le_wagon","assets","model_sentiment_en","variables","variables")
+
+    model.load_weights(model_path)
+    print("model_en weight loaded")
 
     tokenizer = create_tokenizer_en()
     inputs_ids, input_masks = tokenize(X_pred["reply"], tokenizer)
