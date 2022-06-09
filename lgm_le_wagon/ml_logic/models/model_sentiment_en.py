@@ -1,5 +1,5 @@
 
-#from colorama import Fore, Style
+from colorama import Fore, Style
 
 import time
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
