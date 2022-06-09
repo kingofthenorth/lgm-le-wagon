@@ -7,8 +7,8 @@ raw_data/
 *.egg-info
 
 # Assets
-**/assets/*.npy
-**/assets/assets_glove-wiki
+**/assets
+
 
 # Environment
 .env
