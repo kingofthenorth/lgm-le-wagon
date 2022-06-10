@@ -1,14 +1,11 @@
 
 from colorama import Fore, Style
 
-import time
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
-start = time.perf_counter()
 
 from tensorflow.keras import Model,Sequential, layers
 from tensorflow.keras.callbacks import EarlyStopping
 
-end = time.perf_counter()
 print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 
 from typing import Tuple

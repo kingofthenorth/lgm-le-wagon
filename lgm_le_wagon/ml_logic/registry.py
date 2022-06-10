@@ -3,7 +3,6 @@ import mlflow
 
 import glob
 import os
-import time
 import pickle
 
 from colorama import Fore, Style
