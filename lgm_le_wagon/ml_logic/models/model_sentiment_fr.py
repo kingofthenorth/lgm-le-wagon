@@ -1,11 +1,13 @@
 from colorama import Fore, Style
-
+import time
+start=time.perf_counter()
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense, Dropout, Input, Lambda, Dropout
 from tensorflow.keras.callbacks import EarlyStopping
 from transformers import TFCamembertModel
 from tensorflow.keras.optimizers import Adam
+end=time.perf_counter()
 print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 
 from typing import Tuple

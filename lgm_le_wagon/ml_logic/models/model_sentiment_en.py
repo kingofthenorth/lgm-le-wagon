@@ -1,14 +1,17 @@
 
 from colorama import Fore, Style
+import time
 
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
 
 from tensorflow import keras
+start = time.perf_counter()
 from tensorflow.keras import Model, Sequential, layers, regularizers
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow import convert_to_tensor
 from transformers import DistilBertTokenizer, BertTokenizer
 from tensorflow.keras import layers, Model
+end=time.perf_counter()
 from transformers import TFDistilBertModel, DistilBertConfig, TFBertModel, BertConfig, TFBertForSequenceClassification
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping

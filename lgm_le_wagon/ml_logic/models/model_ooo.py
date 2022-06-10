@@ -1,16 +1,16 @@
-
+from typing import Tuple
+import time
+import numpy as np
 from colorama import Fore, Style
 
 print(Fore.BLUE + "\nLoading tensorflow..." + Style.RESET_ALL)
-
+start = time.perf_counter()
 from tensorflow.keras import Model,Sequential, layers
 from tensorflow.keras.callbacks import EarlyStopping
-
+end=time.perf_counter()
 print(f"\n✅ tensorflow loaded ({round(end - start, 2)} secs)")
 
-from typing import Tuple
 
-import numpy as np
 
 def initialize_model_ooo() -> Model:
     """
