@@ -98,6 +98,7 @@ def pred_en(X_pred=None) -> np.ndarray:
 
     labels = {0: 'Negative reply', 1: 'Neutral reply', 2: 'Positive reply'}
     print(labels[np.argmax(y_pred)])
+    return labels[np.argmax(y_pred)]
 
 
 if __name__ == '__main__':
