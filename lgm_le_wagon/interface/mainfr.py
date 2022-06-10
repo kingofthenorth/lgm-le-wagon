@@ -90,9 +90,12 @@ def pred_fr(X_pred=None) -> np.ndarray:
 
     y_pred = model.predict([inputs_ids, input_masks])
 
-    print(f"\n✅ prediction SA_FR done: Sentiment of this reply is {y_pred}")
+    #print(f"\n✅ prediction SA_FR done: Sentiment of this reply is {y_pred}")
 
-    return y_pred
+    #return y_pred
+
+    labels = {0: 'Negative reply', 1: 'Neutral reply', 2: 'Positive reply'}
+    print(labels[np.argmax(y_pred)])
 
 if __name__ == '__main__':
     #preprocess_and_train_SAFR()
